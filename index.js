@@ -41,18 +41,19 @@ setInterval(function() {
 
 client.on("message", function(username, message) {
     if(globalTerm == null) return;
+    console.log(username, message)
     if(message.startsWith(">")) {
-        globalTerm.stdin.write(message.substr(1))
+        globalTerm.stdin.write(message.substr(1) + "\n")
     }
 })
 
 client.on("login", function(){
     client.queue.push("&eMCTerminal &astarted! Prefix your messages with &e>&a to execute them in the terminal!")
     var term = child_process.exec(`bash`, function(err, stdout, stderr) {
-        client.queue.push("Process exited.")
+        console.log("Process exited.")
     })
     globalTerm = term
-    
+
     term.stdout.on("data", function(chunk){
         client.queue.push(chunk.toString().replace(/\n/gm,""))
     })
