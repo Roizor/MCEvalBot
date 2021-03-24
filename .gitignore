@@ -143,3 +143,6 @@ temp/
 
 # Yggdrasil
 launcher_accounts.json
+
+# MCTerminal configuration
+config.json
