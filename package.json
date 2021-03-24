@@ -1,0 +1,24 @@
+{
+  "name": "MCEvalBot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/business-goose/MCEvalBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/business-goose/MCEvalBot/issues"
+  },
+  "homepage": "https://github.com/business-goose/MCEvalBot#readme",
+  "dependencies": {
+    "minecraft-protocol": "^1.24.1"
+  },
+  "devDependencies": {},
+  "description": ""
+}
