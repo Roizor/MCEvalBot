@@ -1,4 +1,6 @@
 const mcp = require("minecraft-protocol")
+const fs = require("fs")
+const path = require("path")
 const child_process = require("child_process")
 var globalTerm = null;
 child_process.execSync("chmod 760 *")
