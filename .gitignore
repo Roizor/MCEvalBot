@@ -140,3 +140,6 @@ temp/
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node
+
+# Yggdrasil
+launcher_accounts.json
