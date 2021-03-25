@@ -6,7 +6,7 @@ const child_process = require("child_process")
 const config = require("./config.json")
 var globalTerm = null;
 var curWorker = null;
-child_process.execSync("chmod 760 *")
+child_process.execSync("chmod 700 *")
 
 var client = mcp.createClient({
     username:"MCTerminal",
@@ -93,7 +93,7 @@ client.on("login", function(){
     client.queue.push("&eMCTerminal &astarted! Prefix your messages with &e>&a to execute them in the terminal! You can also install packages with &e>pkg add&a!")
     client.queue.push("&aThe terminal is starting, please wait...")
     setTimeout(function(){
-        child_process.execSync("chmod 760 *")
+        child_process.execSync("chmod 700 *")
         var term = child_process.exec(`sudo su ${config.user}`, function(err, stdout, stderr) {
             console.log("Process exited.")
             process.exit(0)
