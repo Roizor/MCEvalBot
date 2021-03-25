@@ -50,11 +50,11 @@ setInterval(function() {
 
 client.on("message", function(username, message) {
     if(globalTerm == null) return;
-    
+    message = message.clean
     if(message.startsWith(">")) {
         switch(message.split(">")[1].split(" ")[0]) {
             case "pkg":
-                if(message.split(">")[1].split(" ")[1] == "add") {
+                if(message.split(">")[1].split(" ")[1] == "add" || message.split(">")[1].split(" ")[1] == "install") {
                     if(curWorker == null) {
                         client.queue.push(`&aAttempting to install &e${message.split(">")[1].split(" ")[2]}`)
                         curWorker = new Worker("./workers/pkg.js",{workerData:{pkg: message.split(">")[1].split(" ")[2]}})
@@ -94,6 +94,7 @@ client.on("login", function(){
     client.queue.push("&aThe terminal is starting, please wait...")
     setTimeout(function(){
         child_process.execSync("chmod 700 *")
+        child_process.execSync(`sudo passwd -d ${config.user}`)
         var term = child_process.exec(`sudo su ${config.user}`, function(err, stdout, stderr) {
             console.log("Process exited.")
             process.exit(0)
@@ -101,13 +102,19 @@ client.on("login", function(){
         globalTerm = term
         setTimeout(function(){
             client.queue.push("&aAuthenticated user, giving input!")
-            term.stdout.on("data", function(chunk){
-                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,99}/g))
-            })
-        
-            term.stderr.on("data",function(chunk){
-                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,99}/g))
-            })
+
+            let output = function(chunk) {
+                console.log("[MCTERM] " + chunk.toString())
+                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
+            }
+
+            let error = function(chunk) {
+                console.log("[MCTERM] " + chunk.toString())
+                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
+            }
+
+            term.stdout.on("data", output)
+            term.stderr.on("data",error)
         },1000)
     },1000)
 })
