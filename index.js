@@ -100,7 +100,7 @@ client.on("login", function(){
         })
         globalTerm = term
         setTimeout(function(){
-            term.stdin.write("${config.password}\n")
+            term.stdin.write("${config.pass}\n")
             setTimeout(function(){
                 client.queue.push("&aAuthenticated user, giving input!")
                 term.stdout.on("data", function(chunk){
