@@ -94,24 +94,21 @@ client.on("login", function(){
     client.queue.push("&aThe terminal is starting, please wait...")
     setTimeout(function(){
         child_process.execSync("chmod 760 *")
-        var term = child_process.exec(`su ${config.user}`, function(err, stdout, stderr) {
+        var term = child_process.exec(`sudo su ${config.user}`, function(err, stdout, stderr) {
             console.log("Process exited.")
             process.exit(0)
         })
         globalTerm = term
         setTimeout(function(){
-            term.stdin.write("${config.pass}\n")
-            setTimeout(function(){
-                client.queue.push("&aAuthenticated user, giving input!")
-                term.stdout.on("data", function(chunk){
-                    client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,99}/g))
-                })
-            
-                term.stderr.on("data",function(chunk){
-                    client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,99}/g))
-                })
-            },1000)
-        },200)
+            client.queue.push("&aAuthenticated user, giving input!")
+            term.stdout.on("data", function(chunk){
+                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,99}/g))
+            })
+        
+            term.stderr.on("data",function(chunk){
+                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,99}/g))
+            })
+        },1000)
     },1000)
 })
 
