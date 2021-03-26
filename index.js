@@ -124,6 +124,10 @@ client.on("end", function(reason){
     process.exit(0)
 })
 
+client.on("kick_disconnect", function(packet){
+    console.log(packet)
+})
+
 client.on("error", function(err){
     console.log(err)
     process.exit(0)
