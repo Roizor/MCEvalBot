@@ -50,7 +50,7 @@ setInterval(function() {
 
 client.on("message", function(username, message) {
     if(globalTerm == null) return;
-    message = message.clean
+    message = message
     if(message.startsWith(">")) {
         switch(message.split(">")[1].split(" ")[0]) {
             case "pkg":
