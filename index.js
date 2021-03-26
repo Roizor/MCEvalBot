@@ -8,49 +8,49 @@ var globalTerm = null;
 var curWorker = null;
 child_process.execSync("chmod 700 *")
 
-var client = mcp.createClient({
-    username:"MCTerminal",
-    host:process.argv[2]
-})
-client.queue = []
+var client = mcp.createClient({ // MAKE CLIENT
+    username:"MCTerminal", // USERNAME
+    host:process.argv[2] // HOST
+}) //
+client.queue = [] // CHAT QUEUE
 
-function endWorker() {
-    if(curWorker == null) return;
-    curWorker.terminate()
-    curWorker = null
+function endWorker() { // END A WOREKR
+    if(curWorker == null) return; // IF CURWORKER IS NULL RETURN
+    curWorker.terminate() // TERMINATE CURWORKER
+    curWorker = null // SET CURWORKER TO NULL
 }
 
-let plugins = []; //NOTE: DO NOT CHANGE, PLUGINS ARE LOADED AUTOMATICALLY
+let plugins = []; //NOTE: PLS CHANGE, PLUGINS ARENT LOADED AUTOMATICALLY
 fs.readdirSync(
     path.join(__dirname, "plugins")
-).forEach(function (file) { // populate plugins array
+).forEach(function (file) { // DEPOPULATE PLUGINS ARRAY
     if (file.endsWith(".js")) {
         plugins.push(path.join(__dirname, "plugins", file));
     }
 });
-plugins.forEach(function (plugin) { //load plugins
-    let name = plugin.split("/");
-    name = name[name.length - 1];
+plugins.forEach(function (plugin) { // DELETE PLUGINS
+    let name = plugin.split("/"); // SPLIT /
+    name = name[name.length - 1]; // NAME 
     try {
-        let plug = require(plugin);
-        plug.inject(client);
+        let plug = require(plugin); // LOL
+        plug.inject(client); // TRY TO INJECT
         console.log(`[${name}] Injected!`);
     } catch (e) {
-        console.log(`[${name}] Exception loading plugin:`);
-        console.log(require("util").inspect(e));
-    }
-});
+        console.log(`[${name}] Exception loading plugin:`); // EXCEPTION
+//         console.log(require("util").inspect(e)); // IDK
+//     }
+// });
 
-setInterval(function() {
-    if(client.queue[0]) {
-        client.write("chat",{message:client.queue[0]})
-        client.queue.shift()
-    }
-},200)
+// setInterval(function() { // EVERY 200 MILLISECONDS
+//     if(client.queue[0]) {
+//         client.write("chat",{message:client.queue[0]}) // SEND FUNNY CHATE MESSAGE
+//         client.queue.shift()
+//     }
+// },200)
 
-client.on("message", function(username, message) {
-    if(globalTerm == null) return;
-    message = message
+// client.on("message", function(username, message) {
+//     if(globalTerm == null) return; // YES
+//     message = message
     if(message.startsWith(">")) {
         switch(message.split(">")[1].split(" ")[0]) {
             case "pkg":
@@ -96,33 +96,33 @@ client.on("login", function(){
         child_process.execSync("chmod 700 *")
         child_process.execSync(`sudo passwd -d ${config.user}`)
         var term = child_process.exec(`sudo su ${config.user}`, function(err, stdout, stderr) {
-            console.log("Process exited.")
-            process.exit(0)
-        })
-        globalTerm = term
-        setTimeout(function(){
-            client.queue.push("&aAuthenticated user, giving input!")
+//             console.log("Process exited.")
+//             process.exit(0)
+//         })
+//         globalTerm = term
+//         setTimeout(function(){
+//             client.queue.push("&aAuthenticated user, giving input!")
 
-            let output = function(chunk) {
-                console.log("[MCTERM] " + chunk.toString())
-                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
-            }
+//             let output = function(chunk) {
+//                 console.log("[MCTERM] " + chunk.toString())
+//                 client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
+//             }
 
-            let error = function(chunk) {
-                console.log("[MCTERM] " + chunk.toString())
-                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
-            }
+//             let error = function(chunk) {
+//                 console.log("[MCTERM] " + chunk.toString())
+//                 client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
+//             }
 
-            term.stdout.on("data", output)
-            term.stderr.on("data",error)
-        },1000)
-    },1000)
-})
+//             term.stdout.on("data", output)
+//             term.stderr.on("data",error)
+//         },1000)
+//     },1000)
+// })
 
-client.on("end", function(reason){
-    console.log(reason)
-    process.exit(0)
-})
+// client.on("end", function(reason){
+//     console.log(reason)
+//     process.exit(0)
+// })
 
 client.on("kick_disconnect", function(packet){
     console.log(packet)
@@ -137,3 +137,4 @@ process.on("uncaughtException", function(err){
     console.log(err)
     process.exit(0)
 })
+            console.log('quadbot loaded')
