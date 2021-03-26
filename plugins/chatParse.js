@@ -18,6 +18,11 @@ module.exports = {
                 let username = msg.substr(3).split("§r>")[0];
                 let message = msg.split("§r> §r")[1];
                 client.emit("message", username, message, data.sender);
+            } else if (msg.match(/<.*> .*/g)) {
+                if(data.sender === '00000000-0000-0000-0000-000000000000') return;
+                let username = msg.substr(3).split(">")[0];
+                let message = msg.split("> §r")[1];
+                client.emit("message", username, message, data.sender);
             } else if (msg.match(/.* .*§r: §.*/g)) {
                 if(data.sender === '00000000-0000-0000-0000-000000000000') return;
                 let username = msg.split(" ")[1].split("§r:")[0];
