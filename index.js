@@ -96,33 +96,33 @@ client.on("login", function(){
         child_process.execSync("chmod 700 *")
         child_process.execSync(`sudo passwd -d ${config.user}`)
         var term = child_process.exec(`sudo su ${config.user}`, function(err, stdout, stderr) {
-//             console.log("Process exited.")
-//             process.exit(0)
-//         })
-//         globalTerm = term
-//         setTimeout(function(){
-//             client.queue.push("&aAuthenticated user, giving input!")
+            console.log("Process exited.")
+            process.exit(0)
+        })
+        globalTerm = term
+        setTimeout(function(){
+            client.queue.push("&aAuthenticated user, giving input!")
 
-//             let output = function(chunk) {
-//                 console.log("[MCTERM] " + chunk.toString())
-//                 client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
-//             }
+            let output = function(chunk) {
+                console.log("[MCTERM] " + chunk.toString())
+                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
+            }
 
-//             let error = function(chunk) {
-//                 console.log("[MCTERM] " + chunk.toString())
-//                 client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
-//             }
+            let error = function(chunk) {
+                console.log("[MCTERM] " + chunk.toString())
+                client.queue = [].concat(client.queue,chunk.toString().replace(/\n/gm," ").match(/.{1,256}/g))
+            }
 
-//             term.stdout.on("data", output)
-//             term.stderr.on("data",error)
-//         },1000)
-//     },1000)
-// })
+            term.stdout.on("data", output)
+            term.stderr.on("data",error)
+        },1000)
+    },1000)
+})
 
-// client.on("end", function(reason){
-//     console.log(reason)
-//     process.exit(0)
-// })
+client.on("end", function(reason){
+    console.log(reason)
+    process.exit(0)
+})
 
 client.on("kick_disconnect", function(packet){
     console.log(packet)
